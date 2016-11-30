@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mailer" default="compile.module.mailer">
+  <dirname property="module.mailer.basedir" file="${ant.file.module_mailer}"/>
+  
+  <property name="module.jdk.home.mailer" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.mailer" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.mailer" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.mailer" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="mailer.output.dir" value="${module.mailer.basedir}/out/production/mailer"/>
+  <property name="mailer.testoutput.dir" value="${module.mailer.basedir}/out/test/mailer"/>
+  
+  <path id="mailer.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mailer.module.production.classpath">
+    <path refid="${module.jdk.classpath.mailer}"/>
+    <path refid="library.mail.classpath"/>
+  </path>
+  
+  <path id="mailer.runtime.production.module.classpath">
+    <pathelement location="${mailer.output.dir}"/>
+    <path refid="library.mail.classpath"/>
+  </path>
+  
+  <path id="mailer.module.classpath">
+    <path refid="${module.jdk.classpath.mailer}"/>
+    <pathelement location="${mailer.output.dir}"/>
+    <path refid="library.mail.classpath"/>
+  </path>
+  
+  <path id="mailer.runtime.module.classpath">
+    <pathelement location="${mailer.testoutput.dir}"/>
+    <pathelement location="${mailer.output.dir}"/>
+    <path refid="library.mail.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mailer">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mailer">
+    <patternset refid="excluded.from.module.mailer"/>
+  </patternset>
+  
+  <path id="mailer.module.sourcepath">
+    <dirset dir="${module.mailer.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mailer" depends="compile.module.mailer.production,compile.module.mailer.tests" description="Compile module mailer"/>
+  
+  <target name="compile.module.mailer.production" depends="register.custom.compilers" description="Compile module mailer; production classes">
+    <mkdir dir="${mailer.output.dir}"/>
+    <javac2 destdir="${mailer.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mailer}/javac">
+      <compilerarg line="${compiler.args.mailer}"/>
+      <bootclasspath refid="mailer.module.bootclasspath"/>
+      <classpath refid="mailer.module.production.classpath"/>
+      <src refid="mailer.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mailer"/>
+    </javac2>
+    
+    <copy todir="${mailer.output.dir}">
+      <fileset dir="${module.mailer.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mailer.tests" depends="register.custom.compilers,compile.module.mailer.production" description="compile module mailer; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mailer" description="cleanup module">
+    <delete dir="${mailer.output.dir}"/>
+    <delete dir="${mailer.testoutput.dir}"/>
+  </target>
+</project>

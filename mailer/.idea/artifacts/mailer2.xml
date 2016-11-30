@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="mailer2">
+    <output-path>$PROJECT_DIR$/out/artifacts/mailer2</output-path>
+    <root id="root">
+      <element id="archive" name="mailer.jar">
+        <element id="module-output" name="mailer" />
+      </element>
+    </root>
+  </artifact>
+</component>
