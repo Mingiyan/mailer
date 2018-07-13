@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="mailer:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/mailer_jar</output-path>
-    <root id="archive" name="mailer.jar">
-      <element id="module-output" name="mailer" />
-      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/javamail-1.4.7/mail.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>
